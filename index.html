@@ -518,8 +518,7 @@
 
   <!-- Form -->
   <div class="form-container">
-    <form name="bedarfsanalyse" method="POST" netlify id="mainForm">
-      <input type="hidden" name="form-name" value="bedarfsanalyse">
+    <form id="mainForm">
 
       <!-- Section 1 -->
       <div class="form-section">
@@ -890,22 +889,20 @@
         if (combined) summary[field] = combined;
       });
 
-      fetch('/', {
+      // HIER DEINE GOOGLE SHEETS URL EINSETZEN:
+      var GOOGLE_SHEETS_URL = 'DEINE_URL_HIER';
+
+      fetch(GOOGLE_SHEETS_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString()
-      }).then(function(response) {
-        if (response.ok) {
-          showSuccess(summary);
-        } else {
-          btn.disabled = false;
-          btn.textContent = 'Absenden';
-          alert('Fehler beim Senden (Status ' + response.status + '). Bitte nochmal versuchen.');
-        }
+      }).then(function() {
+        showSuccess(summary);
       }).catch(function(err) {
         btn.disabled = false;
         btn.textContent = 'Absenden';
-        alert('Netzwerkfehler: ' + err.message + '. Funktioniert nur auf der Live-Seite (Netlify).');
+        alert('Fehler beim Senden. Bitte nochmal versuchen.');
       });
     });
 
