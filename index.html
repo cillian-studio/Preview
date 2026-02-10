@@ -889,21 +889,37 @@
         if (combined) summary[field] = combined;
       });
 
-      // HIER DEINE GOOGLE SHEETS URL EINSETZEN:
       var GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwvQpNx983_nWPccrZ56uOB6msB6y6yy5kKQZ19LqyMWAh2bksnbxLav3A13bp5Im-d/exec';
 
-      fetch(GOOGLE_SHEETS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      }).then(function() {
-        showSuccess(summary);
-      }).catch(function(err) {
-        btn.disabled = false;
-        btn.textContent = 'Absenden';
-        alert('Fehler beim Senden. Bitte nochmal versuchen.');
-      });
+      var iframe = document.getElementById('hidden_iframe');
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.name = 'hidden_iframe';
+        iframe.id = 'hidden_iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+      }
+
+      var tempForm = document.createElement('form');
+      tempForm.method = 'POST';
+      tempForm.action = GOOGLE_SHEETS_URL;
+      tempForm.target = 'hidden_iframe';
+      tempForm.style.display = 'none';
+
+      var entries = Array.from(formData.entries());
+      for (var i = 0; i < entries.length; i++) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = entries[i][0];
+        input.value = entries[i][1];
+        tempForm.appendChild(input);
+      }
+
+      document.body.appendChild(tempForm);
+      tempForm.submit();
+      document.body.removeChild(tempForm);
+
+      setTimeout(function() { showSuccess(summary); }, 500);
     });
 
     function showSuccess(summary) {
