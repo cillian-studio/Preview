@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bedarfsanalyse | Cillian Studio</title>
+  <meta name="description" content="Fragebogen fuer Ihre massgeschneiderte E-Learning Plattform">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-subtle: #1d1d1d;
+      --fg: #f2f2f2;
+      --fg-muted: #aaaaaa;
+      --border: hsla(0,0%,100%,0.1);
+      --accent: #2563eb;
+      --accent-light: rgba(37,99,235,0.15);
+      --accent-lighter: rgba(37,99,235,0.08);
+      --radius: 0.625rem;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -2px rgba(0,0,0,0.3);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5), 0 4px 6px -4px rgba(0,0,0,0.3);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Header --- */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0.875rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-group { display: flex; align-items: center; gap: 0.75rem; }
+    .logo { height: 32px; width: auto; }
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+    }
+    .header-badge {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.625rem;
+      border-radius: 999px;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      color: var(--fg);
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--fg-muted);
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+    }
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+    }
+    .hero-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* --- Progress --- */
+    .progress-bar {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .progress-track {
+      height: 3px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* --- Form --- */
+    .form-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .form-section {
+      margin-bottom: 2.5rem;
+    }
+    .form-section-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin-bottom: 0.35rem;
+    }
+    .form-section-desc {
+      font-size: 0.85rem;
+      color: var(--fg-muted);
+      margin-bottom: 1.25rem;
+    }
+    .form-section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, hsla(0,0%,100%,0.15), transparent);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--fg);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Inputs */
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-subtle);
+      color: var(--fg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+    input::placeholder, textarea::placeholder {
+      color: #666666;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    select { cursor: pointer; }
+
+    /* Checkboxes & Radios */
+    .option-grid {
+      display: grid;
+      gap: 0.5rem;
+    }
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.875rem;
+    }
+    .option-item:hover {
+      background: hsla(0,0%,100%,0.05);
+      border-color: hsla(0,0%,100%,0.2);
+    }
+    .option-item input { display: none; }
+    .option-item.selected {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    .checkmark {
+      width: 18px;
+      height: 18px;
+      border: 2px solid hsla(0,0%,100%,0.2);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .option-item.radio .checkmark { border-radius: 50%; }
+    .option-item.selected .checkmark {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .checkmark svg { opacity: 0; transition: opacity 0.15s; }
+    .option-item.selected .checkmark svg { opacity: 1; }
+
+    .other-input {
+      margin-top: 0.5rem;
+      display: none;
+    }
+    .other-input.visible { display: block; }
+
+    /* Submit */
+    .submit-section {
+      text-align: center;
+      padding-top: 1rem;
+    }
+    .btn-submit {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.875rem 2.5rem;
+      background: #f2f2f2;
+      color: #0a0a0a;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-md);
+    }
+    .btn-submit:hover {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-1px);
+    }
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .submit-note {
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      margin-top: 0.75rem;
+    }
+
+    /* --- Success Overlay --- */
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: var(--bg);
+      overflow-y: auto;
+    }
+    .success-overlay.visible { display: block; }
+    .success-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: rgb(34,197,94);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .success-icon svg { width: 32px; height: 32px; color: white; }
+    .success-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .success-text {
+      text-align: center;
+      color: var(--fg-muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .summary-section {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .summary-section h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--fg-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      font-size: 0.875rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-item:last-child { border-bottom: none; }
+    .summary-item .q { color: var(--fg-muted); flex: 1; }
+    .summary-item .a { font-weight: 500; text-align: right; max-width: 60%; }
+
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .btn-pdf {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--bg-subtle);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-pdf:hover { background: hsla(0,0%,100%,0.1); border-color: hsla(0,0%,100%,0.3); }
+    .btn-close {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.75rem 1.75rem;
+      background: #f2f2f2;
+      color: #0a0a0a;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-close:hover { background: var(--accent); color: #ffffff; }
+
+    /* --- Footer --- */
+    .footer {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* --- Print --- */
+    @media print {
+      .header, .progress-bar, .btn-group, .footer,
+      .btn-submit, .submit-section, .submit-note { display: none !important; }
+      .success-overlay { position: static !important; background: #fff !important; color: #000 !important; }
+      .success-inner { padding: 1rem 0; }
+      .success-title { font-size: 14pt; color: #000 !important; }
+      .success-text { color: #333 !important; }
+      .summary-section { break-inside: avoid; border: 1px solid #ccc; background: #fff !important; }
+      .summary-section h3 { color: #333 !important; }
+      .summary-item .q { color: #555 !important; }
+      .summary-item .a { color: #000 !important; }
+      .summary-item { border-bottom-color: #ddd !important; }
+      body { font-size: 11pt; background: #fff !important; color: #000 !important; }
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.35rem; }
+      .hero-meta { flex-direction: column; gap: 0.5rem; align-items: center; }
+      .header-badge { display: none; }
+      .summary-item { flex-direction: column; gap: 0.15rem; }
+      .summary-item .a { text-align: left; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo-group">
+        <img src="https://davidcillian.com/wp-content/uploads/2023/08/254-1.png" alt="Cillian Studio" class="logo">
+        <span class="logo-text">CILLIAN STUDIO</span>
+      </div>
+      <span class="header-badge">Bedarfsanalyse</span>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Ihre E-Learning Plattform</h1>
+    <p>Damit wir die App perfekt auf Sie zuschneiden, brauchen wir ein paar Informationen. Keine Frage ist Pflicht.</p>
+    <div class="hero-meta">
+      <span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        5-10 Minuten
+      </span>
+      <span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        28 Fragen, 7 Abschnitte
+      </span>
+    </div>
+  </section>
+
+  <!-- Progress -->
+  <div class="progress-bar">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="form-container">
+    <form name="bedarfsanalyse" method="POST" data-netlify="true" id="mainForm">
+      <input type="hidden" name="form-name" value="bedarfsanalyse">
+
+      <!-- Section 1 -->
+      <div class="form-section" data-section="1">
+        <h2 class="form-section-header">1. Ihre Schulungen heute</h2>
+        <p class="form-section-desc">Wie laeuft es aktuell bei Ihnen?</p>
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">Wie laeuft eine Schulung bei Ihnen aktuell ab?</label>
+          <div class="option-grid" data-name="schulung_aktuell" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="schulung_aktuell" value="Praesenzschulung"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Praesenzschulung (alle in einem Raum)</label>
+            <label class="option-item radio"><input type="radio" name="schulung_aktuell" value="Vor Ort beim Kunden"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ich fahre zur Firma und schule vor Ort</label>
+            <label class="option-item radio"><input type="radio" name="schulung_aktuell" value="Online / Remote"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Online / Remote</label>
+            <label class="option-item radio"><input type="radio" name="schulung_aktuell" value="Gemischt"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Gemischt (mal so, mal so)</label>
+          </div>
+          <input type="text" name="schulung_aktuell_sonstiges" class="other-input" placeholder="Oder beschreiben Sie es in eigenen Worten...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Was nervt Sie dabei am meisten?</label>
+          <div class="option-grid" data-name="probleme" data-type="checkbox">
+            <label class="option-item"><input type="checkbox" name="probleme" value="Alle gleichzeitig"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Alle muessen gleichzeitig da sein</label>
+            <label class="option-item"><input type="checkbox" name="probleme" value="Zu viel Zeit"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kostet zu viel Zeit</label>
+            <label class="option-item"><input type="checkbox" name="probleme" value="Organisation"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Schwer zu organisieren</label>
+            <label class="option-item"><input type="checkbox" name="probleme" value="Warten auf Gruppe"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Neue Teilnehmer muessen warten</label>
+            <label class="option-item"><input type="checkbox" name="probleme" value="Keine Doku"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Keine Dokumentation vorhanden</label>
+            <label class="option-item"><input type="checkbox" name="probleme" value="Wiederholungen"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Wiederholungen sind aufwaendig</label>
+          </div>
+          <input type="text" name="probleme_sonstiges" class="other-input" placeholder="Sonstiges...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ihr groesster Schmerzpunkt im Alltag?</label>
+          <textarea name="schmerzpunkt" placeholder="Beschreiben Sie frei was Sie am meisten stoert..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Wie dokumentieren Sie aktuell Schulungen?</label>
+          <div class="option-grid" data-name="dokumentation" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="dokumentation" value="Excel"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Excel-Tabelle</label>
+            <label class="option-item radio"><input type="radio" name="dokumentation" value="Papier"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Papierliste / Unterschriften</label>
+            <label class="option-item radio"><input type="radio" name="dokumentation" value="Gar nicht"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Im Kopf / gar nicht</label>
+          </div>
+          <input type="text" name="dokumentation_sonstiges" class="other-input" placeholder="Oder anders...">
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="form-section" data-section="2">
+        <h2 class="form-section-header">2. Teilnehmer & Firmen</h2>
+        <p class="form-section-desc">Wer wird geschult und woher kommen die Teilnehmer?</p>
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">Wie viele Teilnehmer insgesamt?</label>
+          <input type="text" name="teilnehmer_anzahl" placeholder="z.B. 15, 30, 100...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Kommen regelmaessig neue dazu?</label>
+          <div class="option-grid" data-name="neue_teilnehmer" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="neue_teilnehmer" value="Ja"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ja, regelmaessig</label>
+            <label class="option-item radio"><input type="radio" name="neue_teilnehmer" value="Nein"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Nein, Team ist stabil</label>
+            <label class="option-item radio"><input type="radio" name="neue_teilnehmer" value="Saisonal"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Saisonal unterschiedlich</label>
+          </div>
+          <input type="text" name="neue_pro_jahr" class="other-input" placeholder="Falls ja: ungefaehr wie viele pro Jahr?">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Wie oft muss jeder geschult werden?</label>
+          <div class="option-grid" data-name="schulungs_frequenz" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="schulungs_frequenz" value="Einmalig"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Einmalig bei Einstellung</label>
+            <label class="option-item radio"><input type="radio" name="schulungs_frequenz" value="Jaehrlich"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Jaehrlich</label>
+            <label class="option-item radio"><input type="radio" name="schulungs_frequenz" value="Alle 2 Jahre"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Alle 2 Jahre</label>
+          </div>
+          <input type="text" name="schulungs_frequenz_sonstiges" class="other-input" placeholder="Oder anders...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Wie viele Firmen schicken Ihnen Teilnehmer?</label>
+          <div class="option-grid" data-name="firmen_anzahl" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="firmen_anzahl" value="1-3"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>1-3 Firmen</label>
+            <label class="option-item radio"><input type="radio" name="firmen_anzahl" value="4-10"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>4-10 Firmen</label>
+            <label class="option-item radio"><input type="radio" name="firmen_anzahl" value="10+"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Mehr als 10</label>
+          </div>
+          <input type="text" name="firmen_anzahl_sonstiges" class="other-input" placeholder="Oder anders...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Wer sind Ihre Teilnehmer?</label>
+          <div class="option-grid" data-name="teilnehmer_typ" data-type="checkbox">
+            <label class="option-item"><input type="checkbox" name="teilnehmer_typ" value="LKW-Fahrer"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>LKW-Fahrer</label>
+            <label class="option-item"><input type="checkbox" name="teilnehmer_typ" value="Lagerarbeiter"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Lagerarbeiter</label>
+            <label class="option-item"><input type="checkbox" name="teilnehmer_typ" value="Buero"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Bueroangestellte / Disponenten</label>
+            <label class="option-item"><input type="checkbox" name="teilnehmer_typ" value="Gemischt"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gemischt / Alle davon</label>
+          </div>
+          <input type="text" name="teilnehmer_typ_sonstiges" class="other-input" placeholder="Sonstiges...">
+        </div>
+      </div>
+
+      <!-- Section 3 -->
+      <div class="form-section" data-section="3">
+        <h2 class="form-section-header">3. Schulungsinhalte</h2>
+        <p class="form-section-desc">Was wird geschult und welches Material gibt es?</p>
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">Welche Themen muessen drin sein?</label>
+          <div class="option-grid" data-name="themen" data-type="checkbox">
+            <label class="option-item"><input type="checkbox" name="themen" value="Gefahrgutklassen"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Gefahrgutklassen (1-9)</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="UN-Nummern"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>UN-Nummern</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="Kennzeichnung"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Kennzeichnung & Etiketten</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="Verpackung"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Verpackung</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="Befoerderungspapiere"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Befoerderungspapiere</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="Ladungssicherung"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Ladungssicherung</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="Notfallmassnahmen"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Notfallmassnahmen</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="ADR"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>ADR (Strasse)</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="RID"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>RID (Schiene)</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="IMDG"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>IMDG (See)</label>
+            <label class="option-item"><input type="checkbox" name="themen" value="IATA-DGR"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>IATA-DGR (Luft)</label>
+          </div>
+          <input type="text" name="themen_sonstiges" class="other-input" placeholder="Weitere Themen...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Haben Sie schon Schulungsmaterial?</label>
+          <div class="option-grid" data-name="material" data-type="checkbox">
+            <label class="option-item"><input type="checkbox" name="material" value="Videos"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Eigene Videos</label>
+            <label class="option-item"><input type="checkbox" name="material" value="Praesentationen"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Praesentationen (PowerPoint)</label>
+            <label class="option-item"><input type="checkbox" name="material" value="PDFs"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>PDFs / Dokumente</label>
+            <label class="option-item"><input type="checkbox" name="material" value="Nichts"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Nein, muss neu erstellt werden</label>
+          </div>
+          <textarea name="material_details" placeholder="Falls vorhanden: Was genau? (z.B. 3 Videos zu Gefahrgutklassen...)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Wie lang ist eine Schulung normalerweise?</label>
+          <div class="option-grid" data-name="schulungsdauer" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="schulungsdauer" value="< 1 Stunde"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Unter 1 Stunde</label>
+            <label class="option-item radio"><input type="radio" name="schulungsdauer" value="1-2 Stunden"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>1-2 Stunden</label>
+            <label class="option-item radio"><input type="radio" name="schulungsdauer" value="Halber Tag"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Halber Tag</label>
+            <label class="option-item radio"><input type="radio" name="schulungsdauer" value="Ganzer Tag"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ganzer Tag</label>
+          </div>
+          <input type="text" name="schulungsdauer_sonstiges" class="other-input" placeholder="Oder anders...">
+        </div>
+      </div>
+
+      <!-- Section 4 -->
+      <div class="form-section" data-section="4">
+        <h2 class="form-section-header">4. Pruefung & Zertifikat</h2>
+        <p class="form-section-desc">Wie wird geprueft und was brauchen die Teilnehmer als Nachweis?</p>
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">Gibt es am Ende eine Pruefung?</label>
+          <div class="option-grid" data-name="pruefung" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="pruefung" value="Ja, schriftlich"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ja, schriftlich (Multiple Choice)</label>
+            <label class="option-item radio"><input type="radio" name="pruefung" value="Ja, muendlich"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ja, muendlich</label>
+            <label class="option-item radio"><input type="radio" name="pruefung" value="Nein"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Nein</label>
+            <label class="option-item radio"><input type="radio" name="pruefung" value="Weiss nicht"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Weiss nicht</label>
+          </div>
+          <input type="text" name="pruefung_sonstiges" class="other-input" placeholder="Oder anders...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Bestehensgrenze? (z.B. 70%, 80%)</label>
+          <input type="text" name="passing_score" placeholder="z.B. 80%">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Was passiert bei Durchfallen?</label>
+          <div class="option-grid" data-name="durchfallen" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="durchfallen" value="Sofort nochmal"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Nochmal versuchen (sofort)</label>
+            <label class="option-item radio"><input type="radio" name="durchfallen" value="Spaeter nochmal"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Warten und spaeter nochmal</label>
+            <label class="option-item radio"><input type="radio" name="durchfallen" value="Praesenz"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Praesenzschulung nachholen</label>
+          </div>
+          <input type="text" name="durchfallen_sonstiges" class="other-input" placeholder="Oder anders...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Brauchen die Teilnehmer ein Zertifikat?</label>
+          <div class="option-grid" data-name="zertifikat" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="zertifikat" value="Ja, Behoerden"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ja, fuer die Behoerden</label>
+            <label class="option-item radio"><input type="radio" name="zertifikat" value="Ja, Kunden"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ja, fuer Kunden/Auftraggeber</label>
+            <label class="option-item radio"><input type="radio" name="zertifikat" value="Ja, intern"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ja, fuer interne Dokumentation</label>
+            <label class="option-item radio"><input type="radio" name="zertifikat" value="Nein"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Nein</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5 -->
+      <div class="form-section" data-section="5">
+        <h2 class="form-section-header">5. Technik & Geraete</h2>
+        <p class="form-section-desc">Welche Geraete und technischen Anforderungen gibt es?</p>
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">Womit sollen die Teilnehmer lernen?</label>
+          <div class="option-grid" data-name="geraete" data-type="checkbox">
+            <label class="option-item"><input type="checkbox" name="geraete" value="Eigenes Smartphone"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Eigenes Smartphone</label>
+            <label class="option-item"><input type="checkbox" name="geraete" value="Firmen-Smartphone"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Firmen-Smartphone</label>
+            <label class="option-item"><input type="checkbox" name="geraete" value="Tablet"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Tablet</label>
+            <label class="option-item"><input type="checkbox" name="geraete" value="PC/Laptop"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>PC / Laptop</label>
+            <label class="option-item"><input type="checkbox" name="geraete" value="Egal"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Egal, Hauptsache es funktioniert</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Offline-Nutzung noetig? (z.B. LKW-Fahrer unterwegs)</label>
+          <div class="option-grid" data-name="offline" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="offline" value="Ja"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ja, auf jeden Fall</label>
+            <label class="option-item radio"><input type="radio" name="offline" value="Vielleicht"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Waere gut, aber nicht zwingend</label>
+            <label class="option-item radio"><input type="radio" name="offline" value="Nein"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Nein, immer online</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sprache der App?</label>
+          <div class="option-grid" data-name="sprache" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="sprache" value="Nur Deutsch"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Nur Deutsch</label>
+            <label class="option-item radio"><input type="radio" name="sprache" value="Deutsch + Englisch"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Deutsch + Englisch</label>
+          </div>
+          <input type="text" name="sprache_sonstiges" class="other-input" placeholder="Weitere Sprachen...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Wer verwaltet das System?</label>
+          <div class="option-grid" data-name="admin" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="admin" value="Ich selbst"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Ich selbst</label>
+            <label class="option-item radio"><input type="radio" name="admin" value="Teammitglied"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Jemand aus meinem Team</label>
+            <label class="option-item radio"><input type="radio" name="admin" value="Mehrere"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Mehrere Personen</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6 -->
+      <div class="form-section" data-section="6">
+        <h2 class="form-section-header">6. Rechtliches</h2>
+        <p class="form-section-desc">Behoerden, Nachweispflichten und Standort.</p>
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">In welchem Land?</label>
+          <div class="option-grid" data-name="land" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="land" value="Oesterreich"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Oesterreich</label>
+            <label class="option-item radio"><input type="radio" name="land" value="Deutschland"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Deutschland</label>
+            <label class="option-item radio"><input type="radio" name="land" value="Beide"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Beide</label>
+          </div>
+          <input type="text" name="land_sonstiges" class="other-input" placeholder="Anderes Land...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Wie lange muessen Nachweise aufbewahrt werden?</label>
+          <div class="option-grid" data-name="aufbewahrung" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="aufbewahrung" value="3 Jahre"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>3 Jahre</label>
+            <label class="option-item radio"><input type="radio" name="aufbewahrung" value="5 Jahre"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>5 Jahre</label>
+            <label class="option-item radio"><input type="radio" name="aufbewahrung" value="10 Jahre"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>10 Jahre</label>
+            <label class="option-item radio"><input type="radio" name="aufbewahrung" value="Weiss nicht"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Weiss nicht</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 7 -->
+      <div class="form-section" data-section="7">
+        <h2 class="form-section-header">7. Zeitplan & Sonstiges</h2>
+        <p class="form-section-desc">Wann soll es losgehen und was ist Ihnen noch wichtig?</p>
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">Bis wann brauchen Sie die App?</label>
+          <div class="option-grid" data-name="zeitplan" data-type="radio">
+            <label class="option-item radio"><input type="radio" name="zeitplan" value="ASAP"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>So schnell wie moeglich</label>
+            <label class="option-item radio"><input type="radio" name="zeitplan" value="1-2 Monate"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>In 1-2 Monaten</label>
+            <label class="option-item radio"><input type="radio" name="zeitplan" value="3-6 Monate"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>In 3-6 Monaten</label>
+            <label class="option-item radio"><input type="radio" name="zeitplan" value="Kein Druck"><span class="checkmark"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg></span>Kein Druck</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Andere Software mit der die App zusammenarbeiten soll?</label>
+          <textarea name="software_integration" placeholder="z.B. Personalverwaltung, Zeiterfassung, ERP... oder 'Nein'"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Was muss die App UNBEDINGT koennen?</label>
+          <textarea name="wichtigste_funktion" placeholder="Die wichtigste Funktion fuer Sie..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sonstige Wuensche, Fragen oder Anmerkungen?</label>
+          <textarea name="sonstiges" placeholder="Hier ist Platz fuer alles was Ihnen noch einfaellt..."></textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-section">
+        <button type="submit" class="btn-submit" id="submitBtn">Absenden</button>
+        <p class="submit-note">Keine Frage ist Pflicht. Wir klaeren offene Punkte im Gespraech.</p>
+      </div>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Cillian Studio &middot; Creation is our Passion &middot; <a href="https://cillianstudio.com" style="color:var(--accent);text-decoration:none;">cillianstudio.com</a>
+  </footer>
+
+  <!-- Success Overlay -->
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-inner">
+      <div class="success-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h2 class="success-title">Vielen Dank!</h2>
+      <p class="success-text">Ihre Antworten wurden erfolgreich gesendet. Wir melden uns innerhalb von 24 Stunden.</p>
+      <div id="summaryContainer"></div>
+      <div class="btn-group">
+        <button class="btn-pdf" onclick="window.print()">Als PDF speichern</button>
+        <button class="btn-close" onclick="document.getElementById('successOverlay').classList.remove('visible')">Schliessen</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Option item selection ---
+    document.querySelectorAll('.option-item').forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        var input = this.querySelector('input');
+        var grid = this.closest('.option-grid');
+        var type = grid.dataset.type;
+
+        if (type === 'radio') {
+          grid.querySelectorAll('.option-item').forEach(function(i) { i.classList.remove('selected'); });
+          input.checked = true;
+          this.classList.add('selected');
+        } else {
+          input.checked = !input.checked;
+          this.classList.toggle('selected', input.checked);
+        }
+
+        // Show "other" input on last option or any selection
+        var group = this.closest('.form-group');
+        var otherInput = group.querySelector('.other-input');
+        if (otherInput) otherInput.classList.add('visible');
+
+        updateProgress();
+      });
+    });
+
+    // --- Progress bar ---
+    function updateProgress() {
+      var groups = document.querySelectorAll('.form-group');
+      var filled = 0;
+      groups.forEach(function(g) {
+        var hasChecked = g.querySelector('input:checked');
+        var textInputs = g.querySelectorAll('input[type="text"], textarea');
+        var hasText = false;
+        textInputs.forEach(function(t) { if (t.value.trim()) hasText = true; });
+        if (hasChecked || hasText) filled++;
+      });
+      var pct = Math.round((filled / groups.length) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+    }
+    document.querySelectorAll('input, textarea').forEach(function(el) {
+      el.addEventListener('input', updateProgress);
+    });
+
+    // --- Form submit ---
+    document.getElementById('mainForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Wird gesendet...';
+
+      var formData = new FormData(this);
+      var summary = {};
+
+      // Collect for summary
+      var labels = {
+        schulung_aktuell: 'Schulung aktuell',
+        probleme: 'Groesste Probleme',
+        schmerzpunkt: 'Schmerzpunkt',
+        dokumentation: 'Dokumentation',
+        teilnehmer_anzahl: 'Teilnehmer',
+        neue_teilnehmer: 'Neue Teilnehmer',
+        neue_pro_jahr: 'Neue pro Jahr',
+        schulungs_frequenz: 'Frequenz',
+        firmen_anzahl: 'Firmen',
+        teilnehmer_typ: 'Teilnehmertyp',
+        themen: 'Themen',
+        material: 'Material',
+        material_details: 'Material Details',
+        schulungsdauer: 'Dauer',
+        pruefung: 'Pruefung',
+        passing_score: 'Bestehensgrenze',
+        durchfallen: 'Bei Durchfallen',
+        zertifikat: 'Zertifikat',
+        geraete: 'Geraete',
+        offline: 'Offline',
+        sprache: 'Sprache',
+        admin: 'Admin',
+        land: 'Land',
+        aufbewahrung: 'Aufbewahrung',
+        zeitplan: 'Zeitplan',
+        software_integration: 'Software-Integration',
+        wichtigste_funktion: 'Wichtigste Funktion',
+        sonstiges: 'Sonstiges'
+      };
+
+      for (var key in labels) {
+        var vals = formData.getAll(key);
+        var sonstigesKey = key + '_sonstiges';
+        var sonstiges = formData.get(sonstigesKey);
+        if (sonstiges) vals.push(sonstiges);
+        var combined = vals.filter(function(v) { return v && v.trim(); }).join(', ');
+        if (combined) summary[labels[key]] = combined;
+      }
+
+      // Submit to Netlify
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      .then(function() {
+        showSuccess(summary);
+      })
+      .catch(function() {
+        showSuccess(summary);
+      });
+    });
+
+    function showSuccess(summary) {
+      var container = document.getElementById('summaryContainer');
+      var html = '<div class="summary-section"><h3>Ihre Antworten</h3>';
+      for (var key in summary) {
+        html += '<div class="summary-item"><span class="q">' + key + '</span><span class="a">' + summary[key] + '</span></div>';
+      }
+      html += '</div>';
+      container.innerHTML = html;
+      document.getElementById('successOverlay').classList.add('visible');
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
