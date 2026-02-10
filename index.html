@@ -243,6 +243,9 @@
       font-size: 0.95rem;
       font-weight: 400;
       background: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
     .option-item:hover {
       background: hsla(0,0%,100%,0.03);
@@ -896,7 +899,19 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString()
-      }).then(function() { showSuccess(summary); }).catch(function() { showSuccess(summary); });
+      }).then(function(response) {
+        if (response.ok) {
+          showSuccess(summary);
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Absenden';
+          alert('Fehler beim Senden (Status ' + response.status + '). Bitte nochmal versuchen.');
+        }
+      }).catch(function(err) {
+        btn.disabled = false;
+        btn.textContent = 'Absenden';
+        alert('Netzwerkfehler: ' + err.message + '. Funktioniert nur auf der Live-Seite (Netlify).');
+      });
     });
 
     function showSuccess(summary) {
