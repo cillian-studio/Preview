@@ -547,7 +547,7 @@
             <label class="option-item"><input type="checkbox" name="Groesste Probleme" value="Keine Doku"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Keine Dokumentation vorhanden</label>
             <label class="option-item"><input type="checkbox" name="Groesste Probleme" value="Wiederholungen"><span class="checkmark"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>Wiederholungen sind aufwändig</label>
           </div>
-          <input type="text" name="Probleme Sonstiges" class="other-input" placeholder="Sonstiges...">
+          <input type="text" name="Groesste Probleme Sonstiges" class="other-input" placeholder="Sonstiges...">
         </div>
 
         <div class="form-group">
@@ -881,19 +881,55 @@
         'Geraete', 'Offline', 'Sprache', 'Systemverwalter', 'Land', 'Aufbewahrungsdauer',
         'Zeitplan', 'Software Integration', 'Wichtigste Funktion', 'Sonstiges'
       ];
+      var labels = {
+        'Schulung aktuell': 'Schulung aktuell',
+        'Groesste Probleme': 'Größte Probleme',
+        'Schmerzpunkt': 'Schmerzpunkt',
+        'Dokumentation': 'Dokumentation',
+        'Teilnehmer Anzahl': 'Teilnehmer Anzahl',
+        'Neue Teilnehmer': 'Neue Teilnehmer',
+        'Neue pro Jahr': 'Neue pro Jahr',
+        'Schulungsfrequenz': 'Schulungsfrequenz',
+        'Anzahl Firmen': 'Anzahl Firmen',
+        'Teilnehmertyp': 'Teilnehmertyp',
+        'Themen': 'Themen',
+        'Material': 'Material',
+        'Material Details': 'Material Details',
+        'Schulungsdauer': 'Schulungsdauer',
+        'Pruefung': 'Prüfung',
+        'Bestehensgrenze': 'Bestehensgrenze',
+        'Bei Durchfallen': 'Bei Durchfallen',
+        'Zertifikat': 'Zertifikat',
+        'Geraete': 'Geräte',
+        'Offline': 'Offline',
+        'Sprache': 'Sprache',
+        'Systemverwalter': 'Systemverwalter',
+        'Land': 'Land',
+        'Aufbewahrungsdauer': 'Aufbewahrungsdauer',
+        'Zeitplan': 'Zeitplan',
+        'Software Integration': 'Software Integration',
+        'Wichtigste Funktion': 'Wichtigste Funktion',
+        'Sonstiges': 'Sonstiges'
+      };
       fields.forEach(function(field) {
         var vals = formData.getAll(field);
         var sonstiges = formData.get(field + ' Sonstiges');
         if (sonstiges) vals.push(sonstiges);
         var combined = vals.filter(function(v) { return v && v.trim(); }).join(', ');
-        if (combined) summary[field] = combined;
+        if (combined) summary[labels[field] || field] = combined;
       });
 
       var GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz8geSnZ63C2clowJwIhqUiJsGWwNsqXgCQYN4h677KSnI7iOhiSTQPCiiJ9vvq3Z90JQ/exec';
 
-      var params = new URLSearchParams(formData).toString();
+      var cleanData = new URLSearchParams();
+      fields.forEach(function(field) {
+        var vals = formData.getAll(field);
+        if (vals.length > 0) cleanData.set(field, vals.join(', '));
+        var sonstiges = formData.get(field + ' Sonstiges');
+        if (sonstiges && sonstiges.trim()) cleanData.set(field + ' Sonstiges', sonstiges);
+      });
       var img = new Image();
-      img.src = GOOGLE_SHEETS_URL + '?' + params;
+      img.src = GOOGLE_SHEETS_URL + '?' + cleanData.toString();
 
       setTimeout(function() { showSuccess(summary); }, 1000);
     });
